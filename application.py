@@ -9,6 +9,11 @@ and retrieves a one day forecest for that <lat,lng> which (currently) consists o
 Temperature, and Dew Poing. This is then sent back to the frontend via json where
 the front end uses the data to replace the table in the DOM of the web page.
 
+http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html
+Using application.py as the filename and providing a callable application object
+(the Flask object, in this case) allows AWS Elastic Beanstalk to easily find your
+application's code.
+
 Copywrite (c) 2015 Charles P Kollar
 
 '''
@@ -80,8 +85,8 @@ def get_day_time_temp_dewpt(lat, lon):
     # This we do not handle, but just let it showup in the UI...
     return ([], [], [])
 
-@application.route("/gmap", methods=['GET', 'POST'])
-def gmap():
+@application.route('/', methods=['GET', 'POST'])
+def index():
     if request.method == 'GET':
         # This will put up a map that is geolocated to the user...
         return render_template('gmap.html')
@@ -99,5 +104,5 @@ def gmap():
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
     # removed before deploying a production app.
-    #application.debug = True
-    application.run(debug=True)
+    application.debug = True
+    application.run()

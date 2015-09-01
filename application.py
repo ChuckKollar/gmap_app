@@ -29,7 +29,9 @@ Using application.py as the filename and providing a callable application object
 (the Flask object, in this case) allows AWS Elastic Beanstalk to easily find your
 application's code.
 '''
-application = Flask(__name__, template_folder=".")
+
+# Flask will look for templates in the /templates folder
+application = Flask(__name__)
 
 
 '''
@@ -102,7 +104,10 @@ def index():
 
 
 if __name__ == "__main__":
-    # Setting debug to True enables debug output. This line should be
-    # removed before deploying a production app.
+    # Setting debug to True enables debug output, and reload on code changes.
+    # This line should be removed before deploying a production app.
     application.debug = True
-    application.run()
+    # http://flask.pocoo.org/docs/0.10/quickstart/
+    # Externally Visible Server
+    # This tells your operating system to listen on all public IPs.
+    application.run(host='0.0.0.0')

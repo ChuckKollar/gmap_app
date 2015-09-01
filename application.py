@@ -29,7 +29,8 @@ Using application.py as the filename and providing a callable application object
 (the Flask object, in this case) allows AWS Elastic Beanstalk to easily find your
 application's code.
 '''
-application = Flask(__name__, template_folder=".")
+#application = Flask(__name__, template_folder=".")
+application = Flask(__name__)
 
 
 '''
@@ -86,6 +87,7 @@ def get_day_time_temp_dewpt(lat, lon):
     return ([], [], [])
 
 @application.route('/', methods=['GET', 'POST'])
+@application.route('/index', methods=['GET', 'POST'])
 def index():
     if request.method == 'GET':
         # This will put up a map that is geolocated to the user...
@@ -105,4 +107,4 @@ if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
     # removed before deploying a production app.
     application.debug = True
-    application.run()
+    application.run(host='0.0.0.0.')

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Forecast 24-hr time and dew point</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        position: relative;
+        top: 22px;
+        left: 22px;
+        height: 400px;
+        width: 400px;
+      }
+      #nws {
+        position: relative;
+        top: 22px;
+        left: 22px;
+      }
+      #nws tr:nth-child(even) {
+        background-color: #eee;
+      }
+      #nws tr:nth-child(odd) {
+        background-color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="map">
+    </div>
+
+    <div id="nws">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Temp (F)</th>
+            <th>Dew Point (F)</th>
+          </tr>
+        </thead>
+        <tbody id="nws_tbody">
+          <tr>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+<script>
+//
+// https://developers.google.com/maps/documentation/javascript/examples/map-geolocation
+//
+// Note: This example requires that you consent to location sharing when
+// prompted by your browser. If you see the error "The Geolocation service
+// failed.", it means you probably did not give permission for the browser to
+// locate you.
+
+function initMap() {
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: {lat: -34.397, lng: 150.644},
+    zoom: 12
+  });
+  var infoWindow = new google.maps.InfoWindow({map: map});
+
+  // http://stackoverflow.com/questions/8026960/google-maps-html5-click-to-get-lat-long
+  google.maps.event.addListener(map, 'click', function(event){
+     // send the lat and lng to the backend to get the temperature forecast...
+     var lat = event.latLng.lat();
+     var lng = event.latLng.lng();
+     console.log( "Latitude: "+lat+" "+", longitude: "+lng);
+     var lat_lng = { 'lat' : lat, 'lng' : lng };
+
+    $.ajax({
+       url :        '/',
+       type :       'POST',
+       contentType: 'application/json; charset=utf-8',
+       dataType:    'json',
+       data:        JSON.stringify(lat_lng),
+       success:     function(response, textStatus, jqXHR){
+          console.log('Received NWS <time, temp, dewpt>');
+          // Should flag an error when the user clicks outside of the USA and the NWS
+          // returns no data for that <lat,lng>.
+          var time = response.time
+          var temp = response.temp
+          var dewpt = response.dewpt
+          // http://stackoverflow.com/questions/17830226/populating-a-table-with-ajax-response
+          $("#nws_tbody").children('tr').remove();
+          for (var i=0; i< time.length; i++) {
+            var row = "<tr><td>"+time[i]+"</td><td>"+temp[i]+"</td><td>"+dewpt[i]+"</td></tr>"
+            $("#nws_tbody").append(row);
+          }
+       },
+       error:       function(jqXHR, textStatus, errorThrown){
+          console.log('AJAX Failure!');
+          console.log(textStatus);
+          console.log(errorThrown);
+       }
+    });          
+
+  });
+
+  // Try HTML5 geolocation.
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      infoWindow.setPosition(pos);
+      infoWindow.setContent('You');
+      map.setCenter(pos);
+    }, function() {
+      handleLocationError(true, infoWindow, map.getCenter());
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleLocationError(false, infoWindow, map.getCenter());
+  }
+}
+
+function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+  infoWindow.setPosition(pos);
+  infoWindow.setContent(browserHasGeolocation ?
+                        'Error: The Geolocation service failed.' :
+                        'Error: Your browser doesn\'t support geolocation.');
+}
+
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"
+    async defer>
+</script>
+
+  </body>
+</html>

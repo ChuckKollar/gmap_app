@@ -14,6 +14,9 @@ Using application.py as the filename and providing a callable application object
 (the Flask object, in this case) allows AWS Elastic Beanstalk to easily find your
 application's code.
 
+Deployed at...
+http://gwmap-env-ze2z8wipcu.elasticbeanstalk.com/
+
 Copywrite (c) 2015 Charles P Kollar
 
 '''

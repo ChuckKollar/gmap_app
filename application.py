@@ -20,7 +20,7 @@ Copywrite (c) 2015 Charles P Kollar
 from flask import Flask, render_template, request, json, jsonify
 from datetime import datetime, timedelta
 import requests
-import lxml.etree as et
+import xml.etree.ElementTree as ET
 
 '''
 http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html
@@ -71,9 +71,9 @@ def get_day_time_temp_dewpt(lat, lon):
     url = build_request_day(lat, lon, datetime.now(), ['temp', 'dew'])
     xml_str = requests.get(url).content
     # https://docs.python.org/2/library/xml.etree.elementtree.html
-    root = et.fromstring(xml_str)
-    data = root.find('data')
     #import ipdb; ipdb.set_trace()
+    root = ET.fromstring(xml_str)
+    data = root.find('data')
     if data is not None:
         time_layout = data.find('time-layout')
         time = [svt.text for svt in time_layout.findall('start-valid-time')]

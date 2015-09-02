@@ -1,0 +1,10 @@
+This is an application that will present a google map for the user, will geolocate
+the map center to where the user's location. When the user clicks on a point on the
+map it will present a 24-hr temperature and dew point temperature for that point
+beneath the map.
+
+The weather data is retrieved from the National Weather Service (see utils/nws.py).
+
+This is a flask application which is designed to run on Amazon's Elastic Beanstalk.
+
+The frontend is simple javascript.

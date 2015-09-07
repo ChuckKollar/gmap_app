@@ -1,0 +1,33 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+#text {
+  position: relative;
+  top: 22px;
+  left: 22px;
+}
+#map_canvas {
+  position: relative;
+  top: 22px;
+  left: 22px;
+  height: 400px;
+  width: 400px;
+}
+#map_info {
+  position: relative;
+  top: 22px;
+  left: 22px;
+}
+#nws {
+  position: relative;
+  top: 22px;
+  left: 22px;
+}
+#nws tr:nth-child(even) {
+  background-color: #eee;
+}
+#nws tr:nth-child(odd) {
+  background-color: #fff;
+}

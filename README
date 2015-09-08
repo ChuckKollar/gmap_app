@@ -1,10 +1,9 @@
-This is an application that will present a google map for the user, will geolocate
-the map center to where the user's location. When the user clicks on a point on the
-map it will present a 24-hr temperature and dew point temperature for that point
-beneath the map.
+This is the link to the little demonstration that I produced (AngularJS frontent,
+Python backend). It will display a map that is geolocated (you must allow it to
+do this by responding when it asks). If you click on the map the frontend will
+send the <lat,lng> of the point that you clicked on to the backend which will
+contact a geolocation and weather webservice, reformat the data and send it back
+to the frontend to be redisplayed as a table below the map. The source is
+available in the "GitHub" link on the page.
 
-The weather data is retrieved from the National Weather Service (see utils/nws.py).
-
-This is a flask application which is designed to run on Amazon's Elastic Beanstalk.
-
-The frontend is simple javascript.
+This application which is designed to run on Amazon's Elastic Beanstalk.

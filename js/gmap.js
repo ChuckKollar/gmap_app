@@ -1,7 +1,7 @@
 // http://victorshi.com/blog/post/Use-Geolocation-API-with-Angularjs
 
 var app = angular.module("geo", ["ui.event", "ui.map"]);
-app.controller("mainController", function($scope){
+app.controller("mainController", function($scope, $http){
   $scope.countrycode = '';
   $scope.readings = [];
 
@@ -66,23 +66,21 @@ app.controller("mainController", function($scope){
       console.log( "Latitude: "+lat+" "+", longitude: "+lng);
       var lat_lng = { 'lat' : lat, 'lng' : lng };
 
-      $.ajax({
-           url :        '/',
-           type :       'POST',
-           contentType: 'application/json; charset=utf-8',
-           dataType:    'json',
-           data:        JSON.stringify(lat_lng),
-           success:     function(response, textStatus, jqXHR){
-                $scope.countrycode = response.countrycode;
-                $scope.readings = response.readings
-                console.log('Received Forcast for '+$scope.countrycode);
-           },
-           error:       function(jqXHR, textStatus, errorThrown){
-                console.log('AJAX Failure!');
-                console.log(textStatus);
-                console.log(errorThrown);
-           }
-      });
+      // https://docs.angularjs.org/api/ng/service/$http
+      // don't use $.ajax() as angular will not know that it
+      // needs to update the scope variables in the view...
+      $http.post('/', lat_lng).
+          then(function(response) {
+              // this callback will be called asynchronously
+              // when the response is available
+              $scope.countrycode = response.data.countrycode;
+              $scope.readings = response.data.readings
+              console.log('Received Forcast for '+$scope.countrycode);
+          }, function(response){
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+              console.log('AJAX Failure!');
+          });
   }
  
   $scope.getLocation();

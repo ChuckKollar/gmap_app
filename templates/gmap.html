@@ -60,7 +60,8 @@
           </thead>
           <tbody>
             <tr ng-repeat="reading in readings">
-              <td>{{ reading.time }}</td>
+              <!-- https://docs.angularjs.org/api/ng/filter/date -->
+              <td>{{ reading.time | date: 'medium' }}</td>
               <td>{{ reading.temp }}</td>
               <td>{{ reading.dewpt }}</td>
             </tr>
@@ -76,15 +77,12 @@
   $ bower install angular
   $ bower install angular-ui-event
   $ bower install angular-ui-map
-  $ bower install jquery.ui
   -->
   <script type="text/javascript" src="/js/bower_components/angular/angular.min.js"></script>
   <script type="text/javascript" src="/js/bower_components/angular-ui-utils/ui-utils.min.js"></script>
   <script type="text/javascript" src="/js/bower_components/angular-ui-map/ui-map.min.js"></script>
   <script type="text/javascript" src="/js/bower_components/angular-ui-event/dist/event.min.js"></script>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-
-  <script type="text/javascript" src="/js/bower_components/jquery/dist/jquery.min.js"></script>
 
   <script type="text/javascript" src="/js/gmap.js"></script>
 

@@ -69,6 +69,24 @@
         </table>
       </div>
 
+      <div id="nws" ng-show="countrycode == 'CA'">
+        <table ng-table>
+          <thead>
+            <tr>
+              <th>Period</th>
+              <th>Temp</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="reading in readings">
+              <!-- https://docs.angularjs.org/api/ng/filter/date -->
+              <td>{{ reading.period }}</td>
+              <td>{{ reading.temp }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
 
   <!--

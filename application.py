@@ -28,7 +28,7 @@ Copywrite (c) 2015 Charles P Kollar
 from flask import Flask, send_file, request, json, jsonify, send_from_directory
 import os
 
-from utils import nws, geo
+from utils import geo, nws, ca
 
 '''
 http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create-deploy-python-flask.html
@@ -57,6 +57,8 @@ def index():
         # XML REST api to get the 24-hr forecast for this lat/lng
         # from the National Weather Service...
         readings = nws.get_day_time_temp_dewpt(lat, lng)
+    elif countrycode == 'CA':
+        readings = ca.get_forecast(lat, lng)
     #import ipdb; ipdb.set_trace()
     # return the data to the front end...
     json_ret = jsonify(countrycode=countrycode, readings=readings)

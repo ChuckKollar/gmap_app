@@ -17,6 +17,11 @@ application's code.
 Deployed at...
 http://gwmap-env-ze2z8wipcu.elasticbeanstalk.com/
 
+Create a virtualenv at a parallel level to this directory for running locally....
+$ virtualenv -p python2.7 ./gmap_app_venv
+$ gmap_app_venv/bin/pip install -r ./gmap_app/requirements.txt
+$ . ./gmap_app_venv/bin/activate
+
 Copywrite (c) 2015 Charles P Kollar
 
 '''
@@ -51,11 +56,7 @@ def index():
     if countrycode == 'US':
         # XML REST api to get the 24-hr forecast for this lat/lng
         # from the National Weather Service...
-        time, temp, dewpt = nws.get_day_time_temp_dewpt(lat, lng)
-        # Create a list of dictionary readings...
-        for i in range(len(time)):
-            reading = { 'time':time[i], 'temp':temp[i], 'dewpt':dewpt[i] }
-            readings.append(reading)
+        readings = nws.get_day_time_temp_dewpt(lat, lng)
     #import ipdb; ipdb.set_trace()
     # return the data to the front end...
     json_ret = jsonify(countrycode=countrycode, readings=readings)

@@ -75,8 +75,8 @@ def get_day_time_temp_dewpt(lat, lon):
     :param lon: The longitude for the point
     :type decimal number
 
-    :return: A 3-tuple of arrays for the: time, temp, dew_point_temp
-    :rtype: tuple
+    :return: An array of dictionaries that contain the readings.
+    :rtype: array
     '''
     url = build_request_day(lat, lon, datetime.now(), ['temp', 'dew'])
     xml_str = requests.get(url).content
@@ -91,8 +91,13 @@ def get_day_time_temp_dewpt(lat, lon):
         temps = parameters.findall('temperature')
         temp = [t.text for t in temps[0].findall('value')]
         dewpt = [t.text for t in temps[1].findall('value')]
-        return (time, temp, dewpt)
+        readings = []
+        # Create a list of dictionary readings...
+        for i in range(len(time)):
+            reading = { 'time' : time[i], 'temp' : temp[i], 'dewpt' : dewpt[i], }
+            readings.append(reading)
+        return readings
     # The user clicked sowhere on the map where the NWS returns no data...
     # It also looks like some places in Canada and Mexico return NULL for data
     # This we do not handle, but just let it showup in the UI...
-    return ([], [], [])
+    return []

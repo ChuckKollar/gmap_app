@@ -61,8 +61,8 @@ app.controller("mainController", function($scope, $http){
   $scope.onClick = function($event, $params) {
       // send the lat and lng to the backend to get the temperature forecast...
       var latLng = $params[0].latLng;
-      var lat = latLng['G'];
-      var lng = latLng['K'];
+      var lat = latLng.lat();
+      var lng = latLng.lng();
       console.log( "Latitude: "+lat+" "+", longitude: "+lng);
       var lat_lng = { 'lat' : lat, 'lng' : lng };
 

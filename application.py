@@ -49,6 +49,7 @@ def index():
         return send_file('templates/gmap.html')
     
     # This should be a POST method with the moused lat and lng...
+    #import ipdb; ipdb.set_trace()
     lat = request.json['lat']
     lng = request.json['lng']
     countrycode = geo.get_countrycode(lat, lng)
@@ -59,7 +60,6 @@ def index():
         readings = nws.get_day_time_temp_dewpt(lat, lng)
     elif countrycode == 'CA':
         readings = ca.get_forecast(lat, lng)
-    #import ipdb; ipdb.set_trace()
     # return the data to the front end...
     json_ret = jsonify(countrycode=countrycode, readings=readings)
     return json_ret

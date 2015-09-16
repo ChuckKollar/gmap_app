@@ -45,17 +45,19 @@
              >
          </div>
         <div id="map_info" ng-show="showResult()">
-           Latitude: {{lat}} <br />
-           Longitude: {{lng}} <br />
+           Your Lat: {{lat | number:4}}, Long: {{lng | number:4}}
            Accuracy: {{accuracy}}
         </div>
         <div id="map_info" ng-show="!showResult()">
-            Error : {{error}}
+            Geocoding Error : {{error}}
             Error Code: {{error.code}}
         </div>       
       </form>
 
       <div id="nws" ng-show="countrycode == 'US'">
+        <a href="http://graphical.weather.gov/xml/rest.php" target="_blank">
+          NOAA NWS (US) Data
+        </a>
         <table ng-table>
           <thead>
             <tr>
@@ -76,6 +78,9 @@
       </div>
 
       <div id="nws" ng-show="countrycode == 'CA'">
+        <a href="http://dd.weather.gc.ca/citypage_weather/" target="_blank">
+          Canadian Weather Service Data
+        </a>
         <table ng-table>
           <thead>
             <tr>
@@ -101,6 +106,7 @@
   $ bower install angular
   $ bower install angular-ui-event
   $ bower install angular-ui-map
+  $ bower install zingchart-angularjs
   -->
   <script type="text/javascript" src="/js/bower_components/angular/angular.min.js"></script>
   <script type="text/javascript" src="/js/bower_components/angular-ui-utils/ui-utils.min.js"></script>
